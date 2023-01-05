@@ -1,0 +1,12 @@
+<nav>
+    <a href="{% url 'home' %}"><img src="/media/logo.png" class="logo" alt="Logo not working"></a>
+    {% if user.is_authenticated %}
+        <input type="text" placeholder="Type here to search..." class="searchbar">
+        <a href="{% url 'profile' user.id %}" class="navbtn">Account</a>
+        <a href="{% url 'logout' %}" class='navbtn'>Logout</a>
+    {% else %}
+        <input type="text" placeholder="Type here to search..." class="searchbar">
+        <a href="{% url 'register_user' %}" class="navbtn">Sign Up</a>
+        <a href="{% url 'login_user' %}" class="navbtn">Log in</a>
+    {% endif %}
+</nav>

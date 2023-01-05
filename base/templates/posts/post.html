@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div class="post_detail">
+    <h1 class="post_detail_title">{{ post.title }}</h1>
+    {% if request.user == post.uploader %}
+    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete article</a>
+    <a href="{% url 'edit_post' post.id %}" class="btn btn-success">Edit article</a>
+    {% endif %}
+    <p class="post_detail_tag">{{ post.tag }}</p>    
+    <img class="post_detail_thumbnail" src="{{ post.thumbnail.url }}" alt="thumbnail unavailable">
+    <h4 class="post_detail_uploader">written by {{ post.uploader }}</h4>
+    <p class="post_detail_content">{{ post.content }}</p>
+</div>
+
+<h2>You might also like:</h2>
+<div class="other_posts">
+    {% for i in p %}
+    <div class="post">
+        <a href="{% url 'post' i.id %}">
+            <img class="thumbnail" src="{{ i.thumbnail.url }}" 
+            alt="image not working :sob:">
+        </a>
+        <a class="title" href="{% url 'post' i.id %}"><h2>{{ i.title }}</h2></a>
+        <p class="upload_date">{{ i.date }}</p>
+        <p class="author">{{ i.author }}</p>
+        <p class="content">{{ i.content|truncatewords:38 }}</p>
+        <a class='see_more' href="{% url 'post' i.id %}">Read more</a>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock %}

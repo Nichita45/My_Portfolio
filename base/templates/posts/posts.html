@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<div class='posts'>
+    <a href="create-post/" class="btn btn-primary" style="width: 180px; margin: 10px 0 0 auto;">Upload a blog post</a>
+    <br>
+    {% for post in posts %}
+    <div class="post">
+        <a href="{% url 'post' post.id %}">
+            <img class="thumbnail" src="{{ post.thumbnail.url }}" 
+            alt="image not working :sob:">
+        </a>
+        <a class="title" href="{% url 'post' post.id %}"><h2>{{ post.title }}</h2></a>
+        <p class="upload_date">{{ post.date }}</p>
+        <p class="author">{{ post.author }}</p>
+        <p class="content">{{ post.content|truncatewords:38 }}</p>
+        <a class='see_more' href="{% url 'post' post.id %}">Read more</a>
+    </div>
+    {% endfor %}
+    <div class="paginator_border">
+        <div class="paginator">
+            {% if posts.has_previous %}
+                <a href="?page=1" class="paginator_btn">&laquo First</a>
+                <a href="?page={{ posts.previous_page_number }}" class="paginator_btn">Previous</a>
+            {% endif %}
+            <p class="btn btn-primary paginator_btn">Page: {{ posts.number }}</p>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}" class="paginator_btn">Next</a>
+                <a href="?page={{ posts.paginator.num_pages }}" class="paginator_btn">Last &raquo</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock %}
